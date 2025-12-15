@@ -1,4 +1,11 @@
 # Nerf-Turret
+
+![Python](https://img.shields.io/badge/python-3.7+-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Raspberry%20Pi-red.svg)
+![OpenCV](https://img.shields.io/badge/opencv-4.8+-green.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Status](https://img.shields.io/badge/status-active-success.svg)
+
 Raspberry Pi based vision-guided Nerf turret developed as a course project.
 
 ## Overview
@@ -29,15 +36,26 @@ This is a **physical** prototype and cannot be meaningfully executed without the
 
 ### Core Components
 
-- **Raspberry Pi** (tested on Pi 4, Pi 3B+ should work)
-- **Camera module** for real-time video input (Pi Camera or USB webcam)
-- **Servo motor** providing horizontal pan control
+- **Raspberry Pi 4** (or Pi 3B+)
+- **Pi Camera Module** for real-time video input
+- **Metal Gear Servo Motor** (MG996R or similar) for horizontal pan control
 - **Nerf blaster** (modified for electronic control)
-- **Relay modules** (2-channel) for flywheel and feeder control
+- **2-channel relay module** (active-low) for flywheel and feeder control
 - **Custom 3D printed parts** for mounting and mechanical adaptations
-- **Power supply** (separate for servos/relays recommended)
+- **5V power supply** for Raspberry Pi (2.5A minimum)
+- **6V external power supply** for servo
 
-The system is designed to operate safely with non-lethal projectiles only and includes mechanisms for user control, safe mode operation, and immediate shutdown capabilities. Additional details about hardware wiring, mechanical adaptations, GPIO pin assignments, and physical assembly are documented in the `docs/` directory.
+### GPIO Pin Assignments
+
+| Component | GPIO Pin | Purpose |
+|-----------|----------|---------|
+| Pan Servo | GPIO 12 | Horizontal rotation control |
+| Flywheel Relay | GPIO 17 | Nerf blaster motor control |
+| Feeder Relay | GPIO 27 | Dart feeding mechanism |
+
+The system is designed to operate safely with non-lethal projectiles only and includes mechanisms for user control, safe mode operation, and immediate shutdown capabilities. 
+
+**For complete hardware setup, wiring diagrams, and assembly instructions, see [`docs/hardware.md`](docs/hardware.md)**
 
 ## Reproducing the Demo (Step-by-Step)
 
@@ -104,9 +122,13 @@ More details, including system diagrams and state machine documentation, are ava
 ```
 nerf-turret/
 ├── assets/          # Photos, diagrams, and media files
-├── docs/            # Detailed documentation (hardware, architecture, safety)
+├── docs/            # Detailed documentation
+│   └── hardware.md  # Complete hardware setup guide
 ├── scripts/         # Utility scripts for testing and calibration
 ├── src/             # Main source code
+│   └── main.py      # Primary turret control script
+├── DEMO.md          # Demonstration guide and expected behavior
+├── requirements.txt # Python dependencies
 └── README.md        # This file
 ```
 
