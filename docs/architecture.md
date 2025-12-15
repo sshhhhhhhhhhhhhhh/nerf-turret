@@ -167,7 +167,7 @@ flowchart TB
     E -->|Yes| F[Turn ON Feeder]
     E -->|No| G[Turn OFF Feeder]
     
-    F --> H[🔥 FIRING]
+    F --> H[FIRING]
     G --> I[TRACKING]
     
     C -->|< 5 seconds| J[Keep Motors ON]
