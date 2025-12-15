@@ -3,14 +3,14 @@
 ## Required Components
 
 ### Electronics
-- **Raspberry Pi 4** (or Pi 3B+)
+- **Raspberry Pi 4** (or Pi 5)
 - **Pi Camera Module** (or USB webcam)
 - **Metal Gear Servo Motor** (e.g., MG996R or similar)
 - **2-Channel Relay Module** (active-low configuration)
-- **5V Power Supply** for Raspberry Pi (2.5A minimum)
+- **5V Power Supply** for Raspberry Pi (3A minimum)
 - **External Power Supply** for servo (6V recommended)
 - **DC-DC Buck Converter** (e.g., LM2596, XL4015) - According to your powering setup
-- **Jumper wires** (female-to-female, male-to-female)
+- **Jumper wires** 
 
 ### Mechanical
 - **Nerf Blaster** (modified for electronic control)
@@ -19,13 +19,12 @@
   - Rotating platform
   - Tactical rail adapter
 - **Tripod or Stable Base**
-- **0.6mm Airsoft BBs** (~50 pieces for ball bearing race)
-- **M3 Hardware** (screws for assembly)
+- **0.6mm Airsoft BBs** (for ball bearing race)
+- **Hardware** (screws for assembly)
 
 ### Optional
 - Breadboard for testing
 - Heat sinks for Raspberry Pi
-- Case for electronics protection
 
 ## GPIO Pin Assignments
 
@@ -43,7 +42,7 @@
 ```mermaid
 graph TB
     subgraph "Power Supplies"
-        PS1[5V Power Supply<br/>2.5A min]
+        PS1[5V Power Supply<br/>3A min]
         PS2[6V Power Supply<br/>Servo]
     end
     
@@ -122,7 +121,7 @@ graph TB
 
 ### Connection Details
 
-**Servo Motor:**
+**Servo Motor:**    
 ```
 Servo Signal (Orange/Yellow) → GPIO 12 (Pin 32)
 Servo Power (Red)            → External 6V supply (+)
