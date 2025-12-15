@@ -54,6 +54,8 @@ This is a **physical** prototype and cannot be meaningfully executed without the
 | Flywheel Relay | GPIO 17 | Nerf blaster motor control |
 | Feeder Relay | GPIO 27 | Dart feeding mechanism |
 
+**3D printed mounting components:** See [`assets/3d-models/`](assets/3d-models/) for STL files and assembly guide
+
 The system is designed to operate safely with non-lethal projectiles only and includes mechanisms for user control, safe mode operation, and immediate shutdown capabilities. 
 
 **For complete hardware setup, wiring diagrams, and assembly instructions, see [`docs/hardware.md`](docs/hardware.md)**
