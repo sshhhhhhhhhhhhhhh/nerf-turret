@@ -8,7 +8,7 @@
 
 Raspberry Pi based vision-guided Nerf turret developed as a course project.
 
-<img src="assets/turret_overview.png" width="400">
+<img src="/assets/turret_overview.jpg" width="400">
 
 ## Overview
 
