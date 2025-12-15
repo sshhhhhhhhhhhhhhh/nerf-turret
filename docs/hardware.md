@@ -3,24 +3,29 @@
 ## Required Components
 
 ### Electronics
-- **Raspberry Pi 4B** (or Pi 5)
+- **Raspberry Pi 4** (or Pi 3B+)
 - **Pi Camera Module** (or USB webcam)
 - **Metal Gear Servo Motor** (e.g., MG996R or similar)
 - **2-Channel Relay Module** (active-low configuration)
-- **5V Power Supply** for Raspberry Pi (3A minimum)
+- **5V Power Supply** for Raspberry Pi (2.5A minimum)
 - **External Power Supply** for servo (6V recommended)
 - **DC-DC Buck Converter** (e.g., LM2596, XL4015) - According to your powering setup
-- **Jumper wires** 
+- **Jumper wires** (female-to-female, male-to-female)
 
 ### Mechanical
 - **Nerf Blaster** (modified for electronic control)
-- **3D Printed Mounts** (custom designed)
-- **Stable Base** (e.g., tripod)
+- **3D Printed Mounts** (custom designed - see [`assets/3d-models/`](../assets/3d-models/))
+  - Servo housing with ball bearing race
+  - Rotating platform
+  - Tactical rail adapter
+- **Tripod or Stable Base**
+- **0.6mm Airsoft BBs** (~50 pieces for ball bearing race)
+- **M3 Hardware** (screws for assembly)
 
 ### Optional
 - Breadboard for testing
 - Heat sinks for Raspberry Pi
-- Ducted fan for Raspberry Pi
+- Case for electronics protection
 
 ## GPIO Pin Assignments
 
@@ -35,32 +40,115 @@
 
 ## Wiring Diagram
 
-### Servo Connection
-```
-Servo Motor:
-├─ Signal (Orange/Yellow) → GPIO 12 (Pin 32)
-├─ Power (Red)            → External 6V supply (+)
-└─ Ground (Brown/Black)   → External 6V supply (-) AND Pi GND
+```mermaid
+graph TB
+    subgraph "Power Supplies"
+        PS1[5V Power Supply<br/>2.5A min]
+        PS2[6V Power Supply<br/>Servo]
+    end
+    
+    subgraph "Raspberry Pi"
+        Pi[Raspberry Pi 4]
+        GPIO12[GPIO 12<br/>Pin 32]
+        GPIO17[GPIO 17<br/>Pin 11]
+        GPIO27[GPIO 27<br/>Pin 13]
+        Pi5V[5V Pin<br/>Pin 2/4]
+        PiGND[GND Pin<br/>Pin 6/9/14/20/25/30/34/39]
+    end
+    
+    subgraph "Servo Motor"
+        Servo[Metal Gear Servo<br/>MG996R]
+        ServoSig[Signal - Orange/Yellow]
+        ServoPwr[Power - Red]
+        ServoGnd[Ground - Brown/Black]
+    end
+    
+    subgraph "2-Channel Relay Module"
+        RelayMod[Relay Module<br/>Active-Low]
+        RelayVCC[VCC]
+        RelayGND[GND]
+        RelayIN1[IN1 - Flywheel]
+        RelayIN2[IN2 - Feeder]
+        RelayOut1[Relay 1 Output<br/>NO]
+        RelayOut2[Relay 2 Output<br/>NO]
+    end
+    
+    subgraph "Nerf Blaster"
+        Flywheel[Flywheel Motors]
+        Feeder[Feeder Motor]
+        BlasterPwr[Motor Power Supply]
+    end
+    
+    subgraph "Camera"
+        PiCam[Pi Camera Module]
+        CamRibbon[CSI Ribbon Cable]
+    end
+    
+    %% Power connections
+    PS1 -->|5V| Pi
+    PS2 -->|6V +| ServoPwr
+    PS2 -->|GND| ServoGnd
+    
+    %% Servo connections
+    GPIO12 -->|PWM Signal| ServoSig
+    PiGND -->|Common Ground| ServoGnd
+    
+    %% Relay connections
+    Pi5V --> RelayVCC
+    PiGND --> RelayGND
+    GPIO17 --> RelayIN1
+    GPIO27 --> RelayIN2
+    
+    %% Relay to motors
+    RelayOut1 --> Flywheel
+    RelayOut2 --> Feeder
+    BlasterPwr -->|Motor Power| Flywheel
+    BlasterPwr -->|Motor Power| Feeder
+    
+    %% Camera connection
+    Pi -->|CSI Port| CamRibbon
+    CamRibbon --> PiCam
+    
+    %% Common ground note
+    ServoGnd -.->|Share Common<br/>Ground| PiGND
+    
+    style Pi fill:#e1f5ff
+    style Servo fill:#ffe1e1
+    style RelayMod fill:#fff4e1
+    style Flywheel fill:#ffe1e1
+    style Feeder fill:#ffe1e1
+    style PiCam fill:#e1ffe1
 ```
 
-### Relay Module Connection (Active-Low)
-```
-2-Channel Relay Module:
-├─ VCC  → Pi 5V (Pin 2 or 4)
-├─ GND  → Pi GND (Pin 6, 9, 14, 20, 25, 30, 34, or 39)
-├─ IN1  → GPIO 17 (Pin 11) - Flywheel Control
-└─ IN2  → GPIO 27 (Pin 13) - Feeder Control
+### Connection Details
 
-Relay Outputs:
-├─ Relay 1 (Flywheel) → Controls Nerf blaster flywheel motors
-└─ Relay 2 (Feeder)   → Controls dart feeding mechanism
+**Servo Motor:**
+```
+Servo Signal (Orange/Yellow) → GPIO 12 (Pin 32)
+Servo Power (Red)            → External 6V supply (+)
+Servo Ground (Brown/Black)   → External 6V supply (-) AND Pi GND
 ```
 
-### Power Considerations
-- **Pi Camera:** Powered directly from Pi (no external power needed)
-- **Servo:** Requires external 6V power supply (servos draw high current)
-- **Relays:** Use Pi 5V, but controlled loads (Nerf motors) have separate power
-- **Common Ground:** Ensure all power supplies share a common ground with the Pi (**important** for PWM Control)
+**Relay Module (Active-Low):**
+```
+Relay VCC  → Pi 5V (Pin 2 or 4)
+Relay GND  → Pi GND (Pin 6, 9, 14, 20, 25, 30, 34, or 39)
+Relay IN1  → GPIO 17 (Pin 11) - Controls Flywheel
+Relay IN2  → GPIO 27 (Pin 13) - Controls Feeder
+```
+
+**Relay Outputs to Nerf Motors:**
+```
+Relay 1 Output (NO) → Flywheel Motors → Motor Power Supply
+Relay 2 Output (NO) → Feeder Motor    → Motor Power Supply
+```
+
+**Pi Camera:**
+```
+Camera Ribbon Cable → Raspberry Pi CSI Camera Port
+```
+
+**Critical:** All power supplies must share a **common ground** for proper operation.
 
 ## Physical Assembly
 
