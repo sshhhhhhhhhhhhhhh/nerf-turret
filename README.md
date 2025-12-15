@@ -8,6 +8,8 @@
 
 Raspberry Pi based vision-guided Nerf turret developed as a course project.
 
+<img src="assets/turret_overview.png" width="400">
+
 ## Overview
 
 This project implements a physical, vision-based Nerf turret prototype designed for area monitoring and non-lethal response. The system uses a camera to continuously observe its surroundings, detects the presence of a person, and autonomously controls a motorized Nerf blaster to track detected targets along a horizontal axis. 
