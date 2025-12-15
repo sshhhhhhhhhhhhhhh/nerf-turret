@@ -9,6 +9,7 @@
 - **2-Channel Relay Module** (active-low configuration)
 - **5V Power Supply** for Raspberry Pi (3A minimum)
 - **External Power Supply** for servo (6V recommended)
+- **DC-DC Buck Converter** (e.g., LM2596, XL4015) - According to your powering setup
 - **Jumper wires** 
 
 ### Mechanical

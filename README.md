@@ -36,7 +36,7 @@ This is a **physical** prototype and cannot be meaningfully executed without the
 
 ### Core Components
 
-- **Raspberry Pi 4** (or Pi 3B+)
+- **Raspberry Pi 4** (or Pi 5B)
 - **Pi Camera Module** for real-time video input
 - **Metal Gear Servo Motor** (MG996R or similar) for horizontal pan control
 - **Nerf blaster** (modified for electronic control)
@@ -44,6 +44,7 @@ This is a **physical** prototype and cannot be meaningfully executed without the
 - **Custom 3D printed parts** for mounting and mechanical adaptations
 - **5V power supply** for Raspberry Pi (2.5A minimum)
 - **6V external power supply** for servo
+- **DC-DC Buck Converter** (e.g., LM2596, XL4015) - According to your powering setup
 
 ### GPIO Pin Assignments
 
